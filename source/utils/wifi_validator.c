@@ -2295,10 +2295,11 @@ int wifi_validate_config(const cJSON *root_json, wifi_global_config_t *wifi_conf
         }
 
     num_radio = 0;
+    radio_feat_map = (wifi_radio_feature_param_t *) malloc(sizeof(wifi_radio_feature_param_t) * (getNumberRadios()));
 
     //Filling the global cache, Need to be optimized.
     for (radio_index = 0; radio_index < getNumberRadios(); radio_index++) {
-        get_wifi_radio_config(radio_index, &radio_vap_map[radio_index], &radio_feat_map);
+        get_wifi_radio_config(radio_index, &radio_vap_map[radio_index], &radio_feat_map[radio_index]);
         get_wifi_vap_config(radio_index, &vap_map[radio_index]);
     }
 
@@ -2309,7 +2310,7 @@ int wifi_validate_config(const cJSON *root_json, wifi_global_config_t *wifi_conf
             return RETURN_ERR;
         }
 
-        if (validate_radio_vap(radio_vap, &radio_vap_map[num_radio], &vap_map[num_radio], radio_feat_map, execRetVal) != RETURN_OK) {
+        if (validate_radio_vap(radio_vap, &radio_vap_map[num_radio], &vap_map[num_radio], &radio_feat_map[num_radio], execRetVal) != RETURN_OK) {
             wifi_util_dbg_print(WIFI_PASSPOINT, "%s %d validate_wifi_config Failed\n",__FUNCTION__, __LINE__);
             return RETURN_ERR;
         }
