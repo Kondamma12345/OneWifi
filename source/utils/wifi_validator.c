@@ -2295,7 +2295,6 @@ int wifi_validate_config(const cJSON *root_json, wifi_global_config_t *wifi_conf
         }
 
     num_radio = 0;
-    radio_feat_map = (wifi_radio_feature_param_t *) malloc(sizeof(wifi_radio_feature_param_t) * (getNumberRadios()));
 
     //Filling the global cache, Need to be optimized.
     for (radio_index = 0; radio_index < getNumberRadios(); radio_index++) {
