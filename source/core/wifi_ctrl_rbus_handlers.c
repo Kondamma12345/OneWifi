@@ -3228,10 +3228,18 @@ bus_error_t set_force_vap_apply(char *name, raw_data_t *p_data, bus_user_data_t 
 
         vap_array_index = convert_vap_index_to_vap_array_index(&mgr->hal_cap.wifi_prop,
             (unsigned int)idx - 1);
+        if (vap_array_index == UINT_MAX || vap_array_index >= MAX_NUM_VAP_PER_RADIO)
+        {
+   wifi_util_error_print(WIFI_CTRL, "%s:%d Invalid vap index\n", __func__, __LINE__);
+    free(data);
+    return bus_error_invalid_input;
+}
 
         radio_index = getRadioIndexFromAp((unsigned int)idx - 1);
-        if (vap_array_index == UINT_MAX || vap_array_index >= MAX_NUM_VAP_PER_RADIO || radio_index == UINT_MAX ||radio_index >= data->u.decoded.num_radios)
-        {wifi_util_error_print(WIFI_CTRL, "%s:%d Invalid vap or radio index\n", __func__, __LINE__);
+
+        if (radio_index == UINT_MAX ||radio_index >= data->u.decoded.num_radios)
+        {
+    wifi_util_error_print(WIFI_CTRL, "%s:%d Invalid  radio index\n", __func__, __LINE__);
     free(data);
     return bus_error_invalid_input;
 }
