@@ -634,7 +634,7 @@ static void wifiapi_handle_get_ApAssocDeviceDiagnosticResult(char **args, unsign
         return;
     }
       snprintf(result_buf, result_buf_size, "diag result: number of devs: %d\n", num_devs);
-      if(dev_array != NULL && num_devs > 0) 
+      if(num_devs > 0) 
       {
       for (unsigned int i = 0; i < num_devs; i++) {
               snprintf(result_buf, result_buf_size,
