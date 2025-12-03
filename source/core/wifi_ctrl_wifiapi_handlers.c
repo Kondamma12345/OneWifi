@@ -605,6 +605,13 @@ err:
     }
 }
 
+char* to_sta_key(uint8_t *mac_address, sta_key_t sta_key) {
+    snprintf(sta_key, STA_KEY_LEN, "%02x:%02x:%02x:%02x:%02x:%02x",
+             mac_address[0], mac_address[1], mac_address[2],
+             mac_address[3], mac_address[4], mac_address[5]);
+    return sta_key;
+}
+
 static void wifiapi_handle_get_ApAssocDeviceDiagnosticResult(char **args, unsigned int num_args,
      char *result_buf, int result_buf_size)
 {
@@ -626,13 +633,9 @@ static void wifiapi_handle_get_ApAssocDeviceDiagnosticResult(char **args, unsign
         snprintf(result_buf, result_buf_size, "Error: dev_array is NULL\n");
         return;
     }
-		char* to_sta_key(uint8_t *mac_address, sta_key_t sta_key) {
-    snprintf(sta_key, STA_KEY_LEN, "%02x:%02x:%02x:%02x:%02x:%02x",
-             mac_address[0], mac_address[1], mac_address[2],
-             mac_address[3], mac_address[4], mac_address[5]);
-    return sta_key;
-}
       snprintf(result_buf, result_buf_size, "diag result: number of devs: %d\n", num_devs);
+      if(num_devs > 0) 
+      { 
       for (unsigned int i = 0; i < num_devs; i++) {
               snprintf(result_buf, result_buf_size,
 	          "\ncli_MACAddress: %s cli_MLDAddr: %s cli_MLDEnable: %d cli_AuthenticationState: %d"
@@ -665,6 +668,7 @@ static void wifiapi_handle_get_ApAssocDeviceDiagnosticResult(char **args, unsign
               dev_array[i].cli_MaxUplinkRate, dev_array[i].cli_activeNumSpatialStreams,
               dev_array[i].cli_TxFrames, dev_array[i].cli_RxRetries, dev_array[i].cli_RxErrors);
       }
+}
       if (dev_array != NULL) {
         free(dev_array);
         dev_array = NULL;
