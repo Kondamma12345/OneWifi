@@ -1662,6 +1662,11 @@ void process_wifi_host_sync()
             if (rdk_vap_info->associated_devices_map != NULL) {
                 assoc_dev_data = hash_map_get_first(rdk_vap_info->associated_devices_map);
                 while (assoc_dev_data != NULL) {
+
+            if (hosts.count >= LM_MAX_HOSTS_NUM) {
+                wifi_util_info_print(WIFI_CTRL, "%s:%d has reached LM_MAX_HOSTS_NUM\n", __func__, __LINE__);
+                break;
+            }
                     snprintf(ssid, sizeof(ssid), "Device.WiFi.SSID.%d", rdk_vap_info->vap_index+1);
                     snprintf((char *)hosts.host[hosts.count].ssid, sizeof(hosts.host[hosts.count].ssid), "%s", ssid);
                     to_mac_str(assoc_dev_data->dev_stats.cli_MACAddress, mac_str);
