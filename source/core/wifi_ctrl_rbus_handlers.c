@@ -2515,6 +2515,7 @@ bus_error_t ap_get_handler(char *name, raw_data_t *p_data, bus_user_data_t *user
             if (p_data->raw_data.bytes == NULL) {
                 wifi_util_error_print(WIFI_CTRL,"%s:%d memory allocation is failed:%d\r\n",__func__,
                     __LINE__, str_len);
+                pthread_mutex_unlock(&events_bus_data->events_bus_lock);
                 return bus_error_out_of_resources;
             }
             strncpy((char *)p_data->raw_data.bytes, events_bus_data->diag_events_json_buffer[vap_array_index], str_len);
@@ -2553,6 +2554,7 @@ bus_error_t ap_get_handler(char *name, raw_data_t *p_data, bus_user_data_t *user
             if (p_data->raw_data.bytes == NULL) {
                 wifi_util_error_print(WIFI_CTRL,"%s:%d memory allocation is failed:%d\r\n",__func__,
                     __LINE__, str_len);
+                pthread_mutex_unlock(&events_bus_data->events_bus_lock);
                 return bus_error_out_of_resources;
             }
             strncpy((char *)p_data->raw_data.bytes, harvester_buf[vap_array_index], str_len);

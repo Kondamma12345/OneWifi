@@ -1931,10 +1931,10 @@ int webconfig_hal_mac_filter_apply(wifi_ctrl_t *ctrl, webconfig_subdoc_decoded_d
     return ret;
 }
 
-bool is_csa_sched_timer_trigger(wifi_radio_operationParam_t old_radio_cfg, wifi_radio_operationParam_t new_radio_cfg)
+bool is_csa_sched_timer_trigger(const wifi_radio_operationParam_t *old_radio_cfg, const wifi_radio_operationParam_t *new_radio_cfg)
 {
-    if (new_radio_cfg.enable && ((old_radio_cfg.channel != new_radio_cfg.channel) ||
-            (old_radio_cfg.channelWidth != new_radio_cfg.channelWidth))) {
+    if (new_radio_cfg->enable && ((old_radio_cfg->channel != new_radio_cfg->channel) ||
+            (old_radio_cfg->channelWidth != new_radio_cfg->channelWidth))) {
         return true;
     }
     return false;
@@ -2177,7 +2177,7 @@ int webconfig_hal_radio_apply(wifi_ctrl_t *ctrl, webconfig_subdoc_decoded_data_t
 
             start_wifi_sched_timer(mgr_radio_data->vaps.radio_index, ctrl, wifi_radio_sched);
 
-            if (is_csa_sched_timer_trigger(mgr_radio_data->oper, radio_data->oper) == true) {
+            if (is_csa_sched_timer_trigger(&mgr_radio_data->oper, &radio_data->oper) == true) {
                 start_wifi_sched_timer(mgr_radio_data->vaps.radio_index, ctrl, wifi_csa_sched);
             }
         }
@@ -2353,7 +2353,7 @@ int webconfig_hal_single_radio_apply(wifi_ctrl_t *ctrl, webconfig_subdoc_decoded
 
         start_wifi_sched_timer(mgr_radio_data->vaps.radio_index, ctrl, wifi_radio_sched);
 
-        if (is_csa_sched_timer_trigger(mgr_radio_data->oper, radio_data->oper) == true) {
+        if (is_csa_sched_timer_trigger(&mgr_radio_data->oper, &radio_data->oper) == true) {
             start_wifi_sched_timer(mgr_radio_data->vaps.radio_index, ctrl, wifi_csa_sched);
         }
     }

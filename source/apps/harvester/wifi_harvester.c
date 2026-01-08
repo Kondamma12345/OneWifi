@@ -743,7 +743,6 @@ void monitor_enable_instant_msmt(mac_address_t sta_mac, bool enable)
             if (memcmp(g_harvester_module.inst_msmt.sta_mac, sta_mac, sizeof(mac_address_t)) == 0) {
                 wifi_util_dbg_print(WIFI_HARVESTER, "%s:%d: instant measurements active for sta:%s, should stop\n", __func__, __LINE__, sta);
                 g_harvester_module.instantDefOverrideTTL = DEFAULT_INSTANT_REPORT_TIME;
-                pthread_mutex_unlock(&g_harvester_module.queue_lock);
                 process_instant_msmt_stop();
             }
         } else {
@@ -769,6 +768,8 @@ void monitor_enable_instant_msmt(mac_address_t sta_mac, bool enable)
             return;
         }
     }
+    pthread_mutex_unlock(&g_harvester_module.queue_lock);
+    return;
 }
 
 void harvester_str_to_mac_bytes (char *key, mac_addr_t bmac) {

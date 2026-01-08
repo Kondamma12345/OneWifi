@@ -1176,6 +1176,10 @@ void Psm_Db_Write_MacFilter(wifi_mac_entry_param_t *mcfg)
 
     psm_mac_map = get_mac_psm_obj(mcfg->vap_index);
     mcfg_mac = strdup(mcfg->mac); // Coverity fix [280369]
+    if (mcfg_mac == NULL) {
+        wifi_util_error_print(WIFI_PSM, "%s:%d Failed to dup str\n", __func__, __LINE__);
+        return;
+    }
     str_tolower(mcfg_mac);
     wifi_util_dbg_print(WIFI_PSM, "%s:%d mac filter vap_index:%d hash_map_address:%p\r\n",__func__, __LINE__, mcfg->vap_index, psm_mac_map);
     wifi_util_dbg_print(WIFI_PSM, "%s:%d mac strdup(mcfg->mac):%s\r\n",__func__, __LINE__, mcfg_mac);
@@ -1200,6 +1204,7 @@ void Psm_Db_Write_MacFilter(wifi_mac_entry_param_t *mcfg)
                     snprintf(temp_mac_entry->device_name, sizeof(temp_mac_entry->device_name), "%s", mcfg->device_name);
                 }
                 wifi_util_dbg_print(WIFI_PSM, "%s:%d mac entry already present\r\n",__func__, __LINE__);
+                free(mcfg_mac);
                 return;
             }
             ret = set_psm_record_by_name((mcfg->vap_index + 1), (mac_psm_data->data_index + 1), MacFilter, mcfg->mac);
@@ -1215,11 +1220,11 @@ void Psm_Db_Write_MacFilter(wifi_mac_entry_param_t *mcfg)
                     snprintf(temp_mac_entry->device_name, sizeof(temp_mac_entry->device_name), "%s", mcfg->device_name);
                 }
                 hash_map_put(psm_mac_map, mcfg_mac, temp_mac_entry);
+                mcfg_mac = NULL;
                 count = hash_map_count(psm_mac_map);
                 update_macfilter_list((mcfg->vap_index + 1), count, psm_mac_map);
             }
         }
-        free(mcfg_mac);
     } else {
         if ((strlen(mcfg->device_name) != 0) && (strlen(mcfg->mac) != 0)) {
             ret = set_psm_record_by_name((mcfg->vap_index + 1), 1, MacFilterDevice, mcfg->device_name);
