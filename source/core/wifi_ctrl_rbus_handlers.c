@@ -2873,11 +2873,11 @@ bus_error_t ap_table_removerowhandler(char const *rowName)
     int i = 0;
     event_bus_element_t *event;
     wifi_ctrl_t *ctrl = (wifi_ctrl_t *)get_wifictrl_obj();
+    pthread_mutex_lock(&ctrl->events_bus_data.events_bus_lock);
     int count = queue_count(ctrl->events_bus_data.events_bus_queue);
 
     wifi_util_dbg_print(WIFI_CTRL, "%s(): %s\n", __FUNCTION__, rowName);
 
-    pthread_mutex_lock(&ctrl->events_bus_data.events_bus_lock);
 
     while (i < count) {
         event = queue_peek(ctrl->events_bus_data.events_bus_queue, i);
@@ -2904,10 +2904,10 @@ static bus_error_t stats_table_removerowhandler(char const *rowName)
     int i = 0;
     event_bus_element_t *event;
     wifi_ctrl_t *ctrl = (wifi_ctrl_t *)get_wifictrl_obj();
+    pthread_mutex_lock(&ctrl->events_bus_data.events_bus_lock);
     int count = queue_count(ctrl->events_bus_data.events_bus_queue);
     wifi_util_dbg_print(WIFI_CTRL, "%s(): %s\n", __FUNCTION__, rowName);
 
-    pthread_mutex_lock(&ctrl->events_bus_data.events_bus_lock);
 
     while (i < count) {
         event = queue_peek(ctrl->events_bus_data.events_bus_queue, i);
@@ -2934,18 +2934,22 @@ static BOOL events_getSubscribed(char *eventName)
     int i;
     event_bus_element_t *event;
     wifi_ctrl_t *ctrl = (wifi_ctrl_t *)get_wifictrl_obj();
+    pthread_mutex_lock(&ctrl->events_bus_data.events_bus_lock);
     int count = queue_count(ctrl->events_bus_data.events_bus_queue);
 
     if (count == 0) {
+        pthread_mutex_unlock(&ctrl->events_bus_data.events_bus_lock);
         return FALSE;
     }
 
     for (i = 0; i < count; i++) {
         event = queue_peek(ctrl->events_bus_data.events_bus_queue, i);
         if ((event != NULL) && (strncmp(event->name, eventName, MAX_EVENT_NAME_SIZE) == 0)) {
+            pthread_mutex_unlock(&ctrl->events_bus_data.events_bus_lock);
             return event->subscribed;
         }
     }
+    pthread_mutex_unlock(&ctrl->events_bus_data.events_bus_lock);
     return FALSE;
 }
 

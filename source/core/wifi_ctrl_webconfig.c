@@ -314,7 +314,7 @@ int  webconfig_free_vap_object_diff_assoc_client_entries(webconfig_subdoc_data_t
                 return RETURN_ERR;
             }
             tmp_rdk_vap_info->associated_devices_diff_map = NULL;
-            pthread_mutex_unlock(tmp_rdk_vap_info->associated_devices_lock);
+            pthread_mutex_unlock(rdk_vap_info->associated_devices_lock);
         }
     }
     return RETURN_OK;
