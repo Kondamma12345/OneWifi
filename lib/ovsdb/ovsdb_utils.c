@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ds_tree.h"
 #include "ovsdb_utils.h"
 #include "log.h"
-
+#include "wifi_util.h"
 /**
  * @brief : converts a static array of strings in a dynamically allocated array
  *
@@ -355,6 +355,7 @@ schema2itree(size_t elem_size, size_t nelems,
              char keys[][elem_size],
              int values[])
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry\n", __FUNCTION__, __LINE__);
     struct str_ipair *pair;
     ds_tree_t *tree;
     char *key;
@@ -389,7 +390,8 @@ schema2itree(size_t elem_size, size_t nelems,
 
 err_free_tree:
     free_str_itree(tree);
-
+   
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __FUNCTION__, __LINE__); 
     return NULL;
 }
 

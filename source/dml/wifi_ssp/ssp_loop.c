@@ -1159,6 +1159,7 @@ int set_psm_record_by_name(unsigned int instance_number, unsigned int data_index
 
 void Psm_Db_Write_MacFilter(wifi_mac_entry_param_t *mcfg)
 {
+    wifi_util_dbg_print(WIFI_PSM, "%s:%d Entry\n",__func__, __LINE__);
     int ret;
     unsigned int count = 0;
     hash_map_t *psm_mac_map;
@@ -1260,6 +1261,7 @@ void Psm_Db_Write_MacFilter(wifi_mac_entry_param_t *mcfg)
             }
         }
     }
+    wifi_util_dbg_print(WIFI_PSM, "%s:%d Exit\n",__func__, __LINE__);
 
     wifi_util_info_print(WIFI_PSM, "%s:%d update mac filter done\n", __func__, __LINE__);
 }

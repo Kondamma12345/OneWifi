@@ -991,6 +991,7 @@ int levl_event_speed_test(wifi_app_t *app, wifi_event_subtype_t sub_type, void *
 
 int apps_frame_event_exec_timeout(wifi_app_t *apps)
 {
+    wifi_util_info_print(WIFI_APPS,"%s:%d Entry\n", __func__, __LINE__);
     time_t l_curr_alive_time_sec, delta_time_sec;
     hash_map_t *probe_map = NULL;
     probe_req_elem_t *l_elem = NULL, *l_temp_elem = NULL;
@@ -1022,6 +1023,7 @@ int apps_frame_event_exec_timeout(wifi_app_t *apps)
     }
 
     wifi_util_info_print(WIFI_APPS,"%s:%d total probe entry:%d\r\n", __func__, __LINE__, hash_map_count(probe_map));
+    wifi_util_info_print(WIFI_APPS,"%s:%d Exit\n", __func__, __LINE__);
     pthread_mutex_unlock(&apps->data.u.levl.lock);
     return 0;
 }
@@ -1558,6 +1560,7 @@ bus_error_t levl_set_handler(char *event_name, raw_data_t *p_data, bus_user_data
 
 bus_error_t levl_event_handler(char *eventName, bus_event_sub_action_t action, int32_t interval, bool* autoPublish)
 {
+    wifi_util_info_print(WIFI_APPS,"%s:%d Entry\n", __func__, __LINE__);
     unsigned int radio = 0;
     wifi_app_t *wifi_app = NULL;
     wifi_ctrl_t *ctrl = (wifi_ctrl_t *)get_wifictrl_obj();
@@ -1656,6 +1659,7 @@ bus_error_t levl_event_handler(char *eventName, bus_event_sub_action_t action, i
             wifi_util_info_print(WIFI_APPS,"%s:%d Removing Subscription\n", __func__, __LINE__);
         }
     }
+    wifi_util_info_print(WIFI_APPS,"%s:%d Exit\n", __func__, __LINE__);
     pthread_mutex_unlock(&wifi_app->data.u.levl.lock);
     return bus_error_success;
 }

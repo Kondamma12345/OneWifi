@@ -25,6 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include <stdbool.h>
+#include "wifi_util.h"
 #include <string.h>
 #include <jansson.h>
 
@@ -332,6 +333,7 @@ int onewifi_ovsdb_table_update(const char *ovsdb_sock_path, ovsdb_table_t *table
 bool onewifi_ovsdb_table_upsert_where_f(const char *ovsdb_sock_path, ovsdb_table_t *table,
         json_t *where, void *record, bool update_uuid, char *filter[])
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry \n", __FUNCTION__, __LINE__);
     json_t *jrow = NULL;
     ovs_uuid_t *uuid = update_uuid ?  (ovs_uuid_t *)((char *)record + table->uuid_offset) : NULL;
     bool ret;
@@ -340,6 +342,8 @@ bool onewifi_ovsdb_table_upsert_where_f(const char *ovsdb_sock_path, ovsdb_table
     if (!jrow) return false;
     ret = onewifi_ovsdb_sync_upsert_where(ovsdb_sock_path, table->table_name, where, jrow, uuid);
     LOG(DEBUG, "%s: %s %s", __FUNCTION__, table->table_name, ret?"success":"error");
+    LOG(DEBUG, "%s: %d Exit", __FUNCTION__, __LINE__);
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __FUNCTION__, __LINE__);
     return ret;
 }
 
@@ -391,6 +395,7 @@ bool onewifi_ovsdb_table_upsert_with_parent_where(const char *ovsdb_sock_path, o
         json_t *where, void *record, bool update_uuid, char *filter[],
         char *parent_table, json_t *parent_where, char *parent_column)
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry \n", __FUNCTION__, __LINE__);
     json_t *jrow = NULL;
     ovs_uuid_t *uuid = update_uuid ?  (ovs_uuid_t *)((char *)record + table->uuid_offset) : NULL;
     bool ret;
@@ -400,6 +405,7 @@ bool onewifi_ovsdb_table_upsert_with_parent_where(const char *ovsdb_sock_path, o
     ret = onewifi_ovsdb_sync_upsert_with_parent(ovsdb_sock_path, table->table_name, where, jrow, uuid,
         parent_table, parent_where, parent_column);
     LOG(DEBUG, "%s: %s %s", __FUNCTION__, table->table_name, ret?"success":"error");
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __FUNCTION__, __LINE__);
     return ret;
 }
 

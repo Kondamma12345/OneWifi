@@ -604,6 +604,7 @@ int retrigger_neighbor_scan(void *arg)
 
 int check_scan_complete_read_results(void *arg)
 {
+    wifi_util_dbg_print(WIFI_MON, "%s : %d  Entry\n", __func__, __LINE__);
     wifi_neighbor_ap2_t *temp_neigh_stats = NULL;
     int ret = RETURN_OK;
     wifi_neighbor_ap2_t *neigh_stats = NULL;
@@ -788,6 +789,7 @@ int check_scan_complete_read_results(void *arg)
 
     //Upadte Channel Stats cache
     execute_radio_channel_stats_api(arg, mon_data);
+    wifi_util_dbg_print(WIFI_MON, "%s : %d  Exit\n", __func__, __LINE__);
 
     return RETURN_OK;
 }

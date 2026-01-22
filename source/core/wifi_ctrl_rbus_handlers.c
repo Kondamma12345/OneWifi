@@ -2870,6 +2870,7 @@ static bus_error_t stats_table_addrowhandler(char const *tableName, char const *
 
 bus_error_t ap_table_removerowhandler(char const *rowName)
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry\n", __FUNCTION__, __LINE__);
     int i = 0;
     event_bus_element_t *event;
     wifi_ctrl_t *ctrl = (wifi_ctrl_t *)get_wifictrl_obj();
@@ -2895,12 +2896,14 @@ bus_error_t ap_table_removerowhandler(char const *rowName)
     }
 
     pthread_mutex_unlock(&ctrl->events_bus_data.events_bus_lock);
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __FUNCTION__, __LINE__);
 
     return bus_error_success;
 }
 
 static bus_error_t stats_table_removerowhandler(char const *rowName)
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d\n", __FUNCTION__, __LINE__);
     int i = 0;
     event_bus_element_t *event;
     wifi_ctrl_t *ctrl = (wifi_ctrl_t *)get_wifictrl_obj();
@@ -2925,6 +2928,7 @@ static bus_error_t stats_table_removerowhandler(char const *rowName)
     }
 
     pthread_mutex_unlock(&ctrl->events_bus_data.events_bus_lock);
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit\n", __FUNCTION__, __LINE__);
 
     return bus_error_success;
 }

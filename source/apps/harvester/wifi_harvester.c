@@ -728,6 +728,7 @@ void process_instant_msmt_start()
 
 void monitor_enable_instant_msmt(mac_address_t sta_mac, bool enable)
 {
+    wifi_util_dbg_print(WIFI_HARVESTER, "%s:%d: Entry\n", __func__, __LINE__);
     mac_addr_str_t sta;
     unsigned int i;
     wifi_mgr_t *mgr = get_wifimgr_obj();
@@ -769,6 +770,7 @@ void monitor_enable_instant_msmt(mac_address_t sta_mac, bool enable)
         }
     }
     pthread_mutex_unlock(&g_harvester_module.queue_lock);
+    wifi_util_dbg_print(WIFI_HARVESTER, "%s:%d: Exit\n", __func__, __LINE__);
     return;
 }
 

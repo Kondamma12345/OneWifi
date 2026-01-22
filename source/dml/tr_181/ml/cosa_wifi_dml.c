@@ -5741,6 +5741,7 @@ SSID_SetParamBoolValue
         BOOL                        bValue
     )
 {
+    wifi_util_dbg_print(WIFI_DMCLI,"%s:%d Entry\n", __FUNCTION__,__LINE__);
     wifi_vap_info_t *pcfg = (wifi_vap_info_t *)hInsContext;
 
     if (pcfg == NULL)
@@ -5867,6 +5868,7 @@ SSID_SetParamBoolValue
         }
         return TRUE;
     }
+    wifi_util_dbg_print(WIFI_DMCLI,"%s:%d Exit\n", __FUNCTION__,__LINE__);
 
     /* CcspTraceWarning(("Unsupported parameter '%s'\n", ParamName)); */
     return FALSE;

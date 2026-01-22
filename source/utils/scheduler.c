@@ -25,6 +25,7 @@
 #include <limits.h>
 #include "scheduler.h"
 #include "timespec_macro.h"
+#include "wifi_util.h"
 
 struct timer_task {
     int id;                             /* identifier - used to delete */
@@ -530,6 +531,7 @@ static int scheduler_get_number_tasks_pending(struct scheduler *sched, bool high
 
 static int scheduler_remove_complete_tasks(struct scheduler *sched)
 {
+    wifi_util_info_print(WIFI_APPS,"%s:%d Entry\n", __func__, __LINE__);
     unsigned int i;
     int hp_id = 0, lp_id = 0;
     int hp_update_index = 0, lp_update_index = 0;
@@ -612,6 +614,7 @@ static int scheduler_remove_complete_tasks(struct scheduler *sched)
     if (sched->num_hp_tasks > 0 && sched->hp_index >= sched->num_hp_tasks) {
         sched->hp_index = sched->num_hp_tasks -1;
     }
+    wifi_util_info_print(WIFI_APPS,"%s:%d Exit\n", __func__, __LINE__);
     return 0;
 }
 
