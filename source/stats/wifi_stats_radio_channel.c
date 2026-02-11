@@ -778,7 +778,6 @@ int check_scan_complete_read_results(void *arg)
         collect_stats->args.scan_mode = args->scan_mode;
         collect_stats->stat_pointer = neighbor_data;
         collect_stats->stat_array_size = ap_count;
-        pthread_mutex_unlock(&mon_data->data_lock);
         wifi_util_dbg_print(WIFI_MON, "Sending neighbor stats event to core %d\n", ap_count);
         push_monitor_response_event_to_ctrl_queue(collect_stats, sizeof(wifi_provider_response_t), wifi_event_type_monitor, wifi_event_type_collect_stats, NULL);
         free(neighbor_data);
