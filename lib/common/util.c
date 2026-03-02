@@ -881,7 +881,11 @@ char *strexread(const char *prog, const char *const*argv)
             close(0);
             close(1);
             close(2);
-            open("/dev/null", O_RDONLY);
+            int devnull_fd = open("/dev/null", O_RDONLY);
+            if(devnull_fd < 0) {
+                LOGW("%s: failed to open /dev/null: %d (%s)", ctx, errno, strerror(errno));
+                return NULL;
+            }
             dup2(fd[1], 1);
             close(fd[0]);
             close(fd[1]);
