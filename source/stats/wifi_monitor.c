@@ -3687,6 +3687,7 @@ int start_wifi_monitor ()
 
 void deinit_wifi_monitor()
 {
+    wifi_util_dbg_print(WIFI_MON, "%s:%d Entry\n", __func__, __LINE__);
     unsigned int i;
     sta_data_t *sta, *temp_sta;
     telemetry_data_t *stat,*temp_stat;
@@ -3780,6 +3781,7 @@ void deinit_wifi_monitor()
             hash_map_destroy(g_monitor_module.bssid_data[i].wpa3_sta_map);
         }
     }
+    wifi_util_dbg_print(WIFI_MON, "%s:%d Exit\n", __func__, __LINE__);
 
     hash_map_destroy(g_monitor_module.clctr_subscriber_map);
 

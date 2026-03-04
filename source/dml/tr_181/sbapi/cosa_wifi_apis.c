@@ -651,6 +651,7 @@ ANSC_STATUS
 CosaDmlWiFiSetEnableRadiusGreylist(BOOLEAN value) {
 
 #if defined (FEATURE_SUPPORT_RADIUSGREYLIST)
+    wifi_util_dbg_print(WIFI_DMCLI,"%s:%d Entry \n", __func__, __LINE__);
     CcspTraceInfo(("[%s] Enter\n",__FUNCTION__));
     char recName[256];
     static char *MacFilterMode      = "eRT.com.cisco.spvtg.ccsp.tr181pa.Device.WiFi.AccessPoint.%d.MacFilterMode";
@@ -692,6 +693,7 @@ CosaDmlWiFiSetEnableRadiusGreylist(BOOLEAN value) {
     UNREFERENCED_PARAMETER(value);
 #endif    
     return ANSC_STATUS_SUCCESS;
+    wifi_util_dbg_print(WIFI_DMCLI,"%s:%d Exit \n", __func__, __LINE__);
 }
 #endif
 
@@ -1493,6 +1495,7 @@ CosaDmlWiFiGetFactoryResetPsmData
         BOOLEAN *factoryResetFlag
     )
 {
+    wifi_util_dbg_print(WIFI_DMCLI,"%s:%d  Entry\n", __FUNCTION__,__LINE__);
     char *strValue = NULL;
     int retPsmGet = CCSP_SUCCESS;
 
@@ -1539,6 +1542,7 @@ CosaDmlWiFiGetFactoryResetPsmData
             return ANSC_STATUS_FAILURE;
     }
     CcspWifiTrace(("RDK_LOG_WARN,WIFI %s : Returning Success \n",__FUNCTION__));
+    wifi_util_dbg_print(WIFI_DMCLI,"%s:%d  Exit\n", __FUNCTION__,__LINE__);
     return ANSC_STATUS_SUCCESS;
 }
 

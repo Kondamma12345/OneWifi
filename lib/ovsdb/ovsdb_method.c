@@ -25,6 +25,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include <stdio.h>
+#include "wifi_util.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -399,6 +400,7 @@ bool onewifi_ovsdb_monit_call_argv(int ovsdb_fd,
         int argc,
         char *argv[])
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry \n", __func__, __LINE__);
     json_t * jparams;
     json_t * jtblval;
     json_t * jtbl;
@@ -423,6 +425,7 @@ bool onewifi_ovsdb_monit_call_argv(int ovsdb_fd,
     json_array_append_new(jparams, jtbl);
 
     retval = onewifi_ovsdb_method_send(ovsdb_fd, callback, data, MT_MONITOR, jparams);
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __func__, __LINE__);
 
     return retval;
 }
@@ -450,6 +453,7 @@ bool onewifi_ovsdb_echo_call_argv(int ovsdb_fd,
                           int argc,
                           char *argv[])
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry \n", __func__, __LINE__);
 
     json_t * jparams;
     bool retval = false;
@@ -464,6 +468,7 @@ bool onewifi_ovsdb_echo_call_argv(int ovsdb_fd,
     }
 
     retval = onewifi_ovsdb_method_send(ovsdb_fd, callback, data, MT_ECHO, jparams);
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __func__, __LINE__);
 
     return retval;
 }
@@ -540,6 +545,7 @@ bool onewifi_ovsdb_echo_call_s_argv(int argc, char *argv[])
  */
 json_t *onewifi_ovsdb_row_filter_argv(json_t * row, int argc, char ** argv)
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry \n", __func__, __LINE__);
     const char *key;
     json_t *value;
 
@@ -566,6 +572,7 @@ json_t *onewifi_ovsdb_row_filter_argv(json_t * row, int argc, char ** argv)
             LOG(TRACE, "filter keep key: %s", key);
         }
     }
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __func__, __LINE__);
 
     return row;
 }
@@ -585,6 +592,7 @@ json_t *ONEWIFI_OVSDB_VA_DECL(onewifi_ovsdb_row_filter, json_t *row)
  */
 json_t *onewifi_ovsdb_row_filtout_argv(json_t * row, int argc, char ** argv)
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Entry \n", __func__, __LINE__);
     const char *key;
     json_t *value;
     void *next;
@@ -604,6 +612,7 @@ json_t *onewifi_ovsdb_row_filtout_argv(json_t * row, int argc, char ** argv)
             json_object_del(row, key);
         }
     }
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit \n", __func__, __LINE__);
 
     return row;
 }

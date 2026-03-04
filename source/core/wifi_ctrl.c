@@ -1665,6 +1665,7 @@ void check_log_upload_cron_job()
 
 int init_wireless_interface_mac()
 {
+    wifi_util_error_print(WIFI_CTRL,"%s:%d Entry\n",__FUNCTION__, __LINE__);
     unsigned int itr=0;
     unsigned int j = 0;
     unsigned int k = 0;
@@ -1751,6 +1752,7 @@ int init_wireless_interface_mac()
     }
     free(hal_vap_info_map);
     hal_vap_info_map = NULL;
+    wifi_util_error_print(WIFI_CTRL,"%s:%d Exit\n",__FUNCTION__, __LINE__);
     return RETURN_OK;
 }
 int validate_and_sync_private_vap_credentials()

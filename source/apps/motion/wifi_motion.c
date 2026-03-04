@@ -1032,6 +1032,7 @@ bus_error_t csi_get_handler(char *event_name, raw_data_t *p_data, bus_user_data_
 
 int webconfig_hal_csi_apply(webconfig_subdoc_decoded_data_t *data)
 {
+    wifi_util_error_print(WIFI_CTRL,"%s %d Entry \n", __func__, __LINE__);
     queue_t *new_config, *current_config;
     new_config = data->csi_data_queue;
     char *tmp_cli_list;
@@ -1164,6 +1165,7 @@ free_csi_data:
     if (tmp_cli_list != NULL) {
         free(tmp_cli_list);
     }
+    wifi_util_error_print(WIFI_CTRL,"%s %d Exit \n", __func__, __LINE__);
     return RETURN_OK;
 }
 

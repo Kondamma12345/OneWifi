@@ -1368,6 +1368,7 @@ void Psm_Db_Write(void *msg, ssp_event_subtype_t sub_type)
 
 void ssp_loop()
 {
+    wifi_util_dbg_print(WIFI_MON, "%s:%d Entry\n", __func__, __LINE__);
     struct timespec time_to_wait;
     struct timespec tv_now;
     int rc;
@@ -1407,6 +1408,7 @@ void ssp_loop()
         }
         pthread_mutex_unlock(&g_ssp_loop.lock);
     }
+    wifi_util_dbg_print(WIFI_MON, "%s:%d Exit\n", __func__, __LINE__);
 }
 
 int push_data_to_ssp_queue(const void *msg, unsigned int len, ssp_event_type_t type, ssp_event_subtype_t sub_type)

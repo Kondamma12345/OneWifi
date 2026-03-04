@@ -597,6 +597,7 @@ int set_managed_guest_interfaces(char *interface_name, int radio_index)
 
 bus_error_t webconfig_init_data_get_subdoc(char *event_name, raw_data_t *p_data, bus_user_data_t *user_data)
 {
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d: Entry\n", __FUNCTION__, __LINE__);
     (void)user_data;
     webconfig_subdoc_data_t *data = NULL;
     wifi_mgr_t *mgr = (wifi_mgr_t *)get_wifimgr_obj();
@@ -711,6 +712,7 @@ bus_error_t webconfig_init_data_get_subdoc(char *event_name, raw_data_t *p_data,
 
     free(data);
     data = NULL;
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d: Exit\n", __FUNCTION__, __LINE__);
     return bus_error_success;
 }
 
