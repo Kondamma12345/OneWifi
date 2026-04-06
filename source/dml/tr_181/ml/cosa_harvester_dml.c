@@ -733,7 +733,7 @@ ActiveMeasurements_Plan_GetParamStringValue
         return FALSE;
     }
     if ( AnscEqualString(ParamName, "PlanID", TRUE)){
-        strcpy(pValue,(char*)pcfg->PlanId);
+        snprintf((char*)pcfg->PlanId, sizeof(pcfg->PlanId), "%s", pValue);
         return 0;
     }
     return -1;
@@ -907,12 +907,12 @@ ActiveMeasurement_Step_GetParamStringValue
 
     if ( AnscEqualString(ParamName, "SourceMac", TRUE)) {
         wifi_util_dbg_print(WIFI_DMCLI,"%s:%d  \n",(char*)pcfg->Step[StepIns].SrcMac ,StepIns);
-        strcpy(pValue, (char*)pcfg->Step[StepIns].SrcMac);
+        snprintf((char*)pcfg->Step[StepIns].SrcMac, sizeof(pcfg->Step[StepIns].SrcMac), "%s", pValue);
         return 0;
     }
     if ( AnscEqualString(ParamName, "DestMac", TRUE)) {
         wifi_util_dbg_print(WIFI_DMCLI,"%s:%d  \n",(char*)pcfg->Step[StepIns].DestMac ,StepIns);
-        strcpy(pValue, (char*) pcfg->Step[StepIns].DestMac);
+        snprintf((char*) pcfg->Step[StepIns].DestMac, sizeof(pcfg->Step[StepIns].DestMac), "%s", pValue);
         return 0;
     }
     return -1;

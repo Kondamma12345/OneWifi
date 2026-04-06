@@ -129,8 +129,8 @@ static int add_str_mac_addr(char *total_mac, const char *str_mac)
                 __LINE__, total_mac);
             return RETURN_ERR;
         } else if (str_len != 0) {
-            strcat(total_mac, ",");
-            strcat(total_mac, str_mac);
+            strncat(total_mac, ",", MAX_MACLIST_SIZE - strlen(total_mac)-1);
+            strncat(total_mac, str_mac, MAX_MACLIST_SIZE - strlen(total_mac)-1);
         } else {
             snprintf(total_mac, MAX_MACLIST_SIZE, "%s", str_mac);
         }
