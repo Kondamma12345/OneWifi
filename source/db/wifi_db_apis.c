@@ -5491,13 +5491,13 @@ void *start_wifidb_func(void *arg)
         return NULL;
     }
     //create a copy of ovs-db server
-    sprintf(cmd, "cp /usr/sbin/ovsdb-server %s/wifidb-server", WIFIDB_RUN_DIR);
+    snprintf(cmd, sizeof(cmd), "cp /usr/sbin/ovsdb-server %s/wifidb-server", WIFIDB_RUN_DIR);
     system(cmd);
-    sprintf(db_file, "%s/rdkb-wifi.db", WIFIDB_DIR);
+    snprintf(db_file, sizeof(db_file), "%s/rdkb-wifi.db", WIFIDB_DIR);
     if (stat(db_file, &sb) != 0) {
         wifi_util_info_print(WIFI_DB, "%s:%d: Could not find rdkb database, ..creating\n", __func__,
             __LINE__);
-        sprintf(cmd, "ovsdb-tool create %s %s/rdkb-wifi.ovsschema", db_file, WIFIDB_SCHEMA_DIR);
+        snprintf(cmd, sizeof(cmd), "ovsdb-tool create %s %s/rdkb-wifi.ovsschema", db_file, WIFIDB_SCHEMA_DIR);
         system(cmd);
 
         memset(&data, 0, sizeof(raw_data_t));
@@ -5532,7 +5532,7 @@ void *start_wifidb_func(void *arg)
 
         wifi_util_info_print(WIFI_DB,"%s:%d: rdkb database already present\n", __func__, __LINE__);
         memset(cmd, 0, sizeof(cmd));
-        sprintf(cmd, "ovsdb-tool db-version %s", db_file);
+        snprintf(cmd, sizeof(cmd), "ovsdb-tool db-version %s", db_file);
         /*Get the Existing db-version*/
         fp = popen(cmd,"r");
         if(fp != NULL) {
@@ -5556,7 +5556,7 @@ void *start_wifidb_func(void *arg)
                     wifi_util_info_print(WIFI_DB,"%s:%d: %s file deleted succesfully\n", __func__, __LINE__, db_file);
                 }
                 wifi_util_info_print(WIFI_DB,"%s:%d: creating the new DB file\n", __func__, __LINE__);
-                sprintf(cmd, "ovsdb-tool create %s %s/rdkb-wifi.ovsschema", db_file, WIFIDB_SCHEMA_DIR);
+                snprintf(cmd, sizeof(cmd), "ovsdb-tool create %s %s/rdkb-wifi.ovsschema", db_file, WIFIDB_SCHEMA_DIR);
                 system(cmd);
                 g_wifidb->is_db_update_required = true;
                 create_onewifi_migration_flag();
@@ -5564,13 +5564,13 @@ void *start_wifidb_func(void *arg)
         }
 
         if (g_wifidb->is_db_update_required == false) {
-            sprintf(cmd,"ovsdb-tool convert %s %s/rdkb-wifi.ovsschema",db_file,WIFIDB_SCHEMA_DIR);
+            snprintf(cmd, sizeof(cmd), "ovsdb-tool convert %s %s/rdkb-wifi.ovsschema",db_file,WIFIDB_SCHEMA_DIR);
             wifi_util_info_print(WIFI_DB,"%s:%d: rdkb database check for version upgrade/downgrade %s \n", __func__, __LINE__,cmd);
             system(cmd);
         }
     }
 
-    sprintf(cmd, "%s/wifidb-server %s --remote=punix:%s/wifidb.sock %s --unixctl=%s/wifi.ctl --log-file=/dev/null --detach", WIFIDB_RUN_DIR, db_file, WIFIDB_RUN_DIR, (debug_option == true)?"--verbose=dbg":"", WIFIDB_RUN_DIR);
+    snprintf(cmd, sizeof(cmd), "%s/wifidb-server %s --remote=punix:%s/wifidb.sock %s --unixctl=%s/wifi.ctl --log-file=/dev/null --detach", WIFIDB_RUN_DIR, db_file, WIFIDB_RUN_DIR, (debug_option == true)?"--verbose=dbg":"", WIFIDB_RUN_DIR);
 
     system(cmd);
     wifi_util_info_print(WIFI_DB, "start_wifidb_func done\n");
