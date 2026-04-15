@@ -22,6 +22,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -54,6 +56,7 @@
 #include "wifi_dml.h"
 #include "wifi_monitor.h"
 
+#define MAX_DB_PRINTBUF_SIZE 256*1024
 #define MAX_BUF_SIZE 128
 #define ONEWIFI_DB_VERSION_EXISTS_FLAG 100017
 #define ONEWIFI_DB_OLD_VERSION_FILE "/tmp/wifi_db_old_version"
@@ -5469,7 +5472,6 @@ void *start_wifidb_func(void *arg)
     char cmd[1024];
     char db_file[128];
     struct stat sb;
-    bool debug_option = false;
     DIR     *wifiDbDir = NULL;
     char version_str[BUFFER_LENGTH_WIFIDB] = {0};
     int  version_int = 0;
@@ -5503,7 +5505,9 @@ void *start_wifidb_func(void *arg)
     sprintf(cmd, "cp /usr/sbin/ovsdb-server %s/wifidb-server", WIFIDB_RUN_DIR);
     system(cmd);
     sprintf(db_file, "%s/rdkb-wifi.db", WIFIDB_DIR);
-    if (stat(db_file, &sb) != 0) {
+
+    int fd = open(db_file, O_RDONLY | O_NOFOLLOW);
+    if (fd < 0) {
         wifi_util_info_print(WIFI_DB, "%s:%d: Could not find rdkb database, ..creating\n", __func__,
             __LINE__);
         sprintf(cmd, "ovsdb-tool create %s %s/rdkb-wifi.ovsschema", db_file, WIFIDB_SCHEMA_DIR);
@@ -5538,7 +5542,10 @@ void *start_wifidb_func(void *arg)
          * Delete the exisiting schema file and create it. So that OneWiFi will update the configuration based on
          * PSM and NVRAM values
          * */
-
+        if (fstat(fd, &sb) != 0 || !S_ISREG(sb.st_mode)) {
+            close(fd);
+            return NULL;
+        }
         wifi_util_info_print(WIFI_DB,"%s:%d: rdkb database already present\n", __func__, __LINE__);
         memset(cmd, 0, sizeof(cmd));
         sprintf(cmd, "ovsdb-tool db-version %s", db_file);
@@ -5561,8 +5568,8 @@ void *start_wifidb_func(void *arg)
                 /*version less than OneWiFi default version
                  * so, Delete the db file and re-create the schema file
                  */
-                if (remove(db_file) == 0) {
-                    wifi_util_info_print(WIFI_DB,"%s:%d: %s file deleted succesfully\n", __func__, __LINE__, db_file);
+                if (unlinkat(AT_FDCWD, db_file, 0) == 0) {
+                    wifi_util_info_print(WIFI_DB,"%s:%d: %s file is deleted successfully\n", __func__, __LINE__, db_file);
                 }
                 wifi_util_info_print(WIFI_DB,"%s:%d: creating the new DB file\n", __func__, __LINE__);
                 sprintf(cmd, "ovsdb-tool create %s %s/rdkb-wifi.ovsschema", db_file, WIFIDB_SCHEMA_DIR);
@@ -5571,6 +5578,7 @@ void *start_wifidb_func(void *arg)
                 create_onewifi_migration_flag();
             }
         }
+        close(fd);
 
         if (g_wifidb->is_db_update_required == false) {
             sprintf(cmd,"ovsdb-tool convert %s %s/rdkb-wifi.ovsschema",db_file,WIFIDB_SCHEMA_DIR);
@@ -5579,7 +5587,7 @@ void *start_wifidb_func(void *arg)
         }
     }
 
-    sprintf(cmd, "%s/wifidb-server %s --remote=punix:%s/wifidb.sock %s --unixctl=%s/wifi.ctl --log-file=/dev/null --detach", WIFIDB_RUN_DIR, db_file, WIFIDB_RUN_DIR, (debug_option == true)?"--verbose=dbg":"", WIFIDB_RUN_DIR);
+    sprintf(cmd, "%s/wifidb-server %s --remote=punix:%s/wifidb.sock %s --unixctl=%s/wifi.ctl --log-file=/dev/null --detach", WIFIDB_RUN_DIR, db_file, WIFIDB_RUN_DIR, "", WIFIDB_RUN_DIR);
 
     system(cmd);
     wifi_util_info_print(WIFI_DB, "start_wifidb_func done\n");
@@ -6221,23 +6229,30 @@ int ovsdb_get_vap_info_map(unsigned int real_index, unsigned int radio_index, wi
 
 void wifidb_print(char *format, ...)
 {
-    char buff[256 * 1024] = {0};
+    char *buff = NULL;
     va_list list;
     FILE *fpg = NULL;
+    buff = malloc(sizeof(char) * MAX_DB_PRINTBUF_SIZE);
+    if (buff == NULL) {
+        wifi_util_error_print(WIFI_DB, "%s:%d: Failed to allocate memory for buffer\n", __func__, __LINE__);
+        return;
+    }
 
     get_formatted_time(buff);
-    strcat(buff, " ");
+    strncat(buff, " ",  MAX_DB_PRINTBUF_SIZE - strlen(buff) - 1);
 
     va_start(list, format);
-    vsprintf(&buff[strlen(buff)], format, list);
+    vsnprintf(buff + strlen(buff), MAX_DB_PRINTBUF_SIZE - strlen(buff), format, list);
     va_end(list);
 
     fpg = fopen("/rdklogs/logs/wifiDb.txt", "a+");
     if (fpg == NULL) {
+        free(buff);
         return;
     }
     fputs(buff, fpg);
     fflush(fpg);
+    free(buff);
     fclose(fpg);
 }
 
