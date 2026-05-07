@@ -122,6 +122,7 @@ static char *mac_exists_in_list(const char *total_mac, const char *mac_to_check)
 
 static int add_str_mac_addr(char *total_mac, const char *str_mac)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
     if (mac_exists_in_list((const char *)total_mac, str_mac) == NULL) {
         uint32_t str_len = strlen(total_mac);
         uint32_t mac_len = strlen(str_mac);
@@ -136,6 +137,7 @@ static int add_str_mac_addr(char *total_mac, const char *str_mac)
             snprintf(total_mac, MAX_MACLIST_SIZE, "%s", str_mac);
         }
     }
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return RETURN_OK;
 }
 

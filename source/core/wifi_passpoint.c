@@ -832,6 +832,7 @@ INT WiFi_GetGasStats(wifi_gas_stats_t *pGASStats)
 
 INT WiFi_SetANQPConfig(uint8_t vapIndex, char *JSON_STR)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
     Err execRetVal;
     int apIns = vapIndex - 1;
 
@@ -925,6 +926,7 @@ INT WiFi_SetANQPConfig(uint8_t vapIndex, char *JSON_STR)
     cJSON_Delete(passPointCfg);
     free(anqpData);
 
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return RETURN_OK;
 }
 
@@ -1055,6 +1057,7 @@ void WiFi_UpdateANQPVenueInfo(uint8_t vapIndex)
 
 INT WiFi_SetHS2Config(uint8_t vapIndex, char *JSON_STR)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
 #if defined (FEATURE_SUPPORT_PASSPOINT)
     Err execRetVal;
     BOOL apEnable = FALSE;
@@ -1154,6 +1157,7 @@ INT WiFi_SetHS2Config(uint8_t vapIndex, char *JSON_STR)
     UNREFERENCED_PARAMETER(JSON_STR);
 #endif
 
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return RETURN_OK;
 }
 

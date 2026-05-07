@@ -418,6 +418,7 @@ int analytics_event_hal_sta_conn_status(wifi_app_t *apps, void *arg)
 
 int analytics_event_hal_assoc_device(wifi_app_t *apps, void *arg)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
     char client_mac[32];
     char temp_str[64];
     hash_map_t           *sta_map;
@@ -448,11 +449,13 @@ int analytics_event_hal_assoc_device(wifi_app_t *apps, void *arg)
         memcpy(sta_info->sta_mac, assoc_data->dev_stats.cli_MACAddress, sizeof(mac_address_t));
     }
 
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return RETURN_OK;
 }
 
 int analytics_event_hal_disassoc_device(wifi_app_t *apps, void *arg)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
     char client_mac[32];
     char temp_str[64];
     hash_map_t            *sta_map;
@@ -477,6 +480,7 @@ int analytics_event_hal_disassoc_device(wifi_app_t *apps, void *arg)
         }
     }
 
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return RETURN_OK;
 }
 

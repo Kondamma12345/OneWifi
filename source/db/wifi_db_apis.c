@@ -1765,6 +1765,7 @@ void callback_Wifi_Postassoc_Control_Config(ovsdb_update_monitor_t *mon,
 **************************************************************************************/
 int wifidb_update_interworking_config(char *vap_name, wifi_InterworkingElement_t *interworking)
 {
+    wifi_util_dbg_print(WIFI_DB,"%s:%d: Entry\n",__func__, __LINE__);
     struct schema_Wifi_Interworking_Config cfg, *pcfg;
 
     json_t *where;
@@ -1813,6 +1814,7 @@ int wifidb_update_interworking_config(char *vap_name, wifi_InterworkingElement_t
                 wifidb_print("%s:%d Updated WIFI DB. insert in table_Wifi_Interworking_Config successful. \n",__func__, __LINE__);
              }
         }
+        wifi_util_dbg_print(WIFI_DB,"%s:%d: Exit\n",__func__, __LINE__);
         return 0;
 }
 
@@ -2949,6 +2951,7 @@ int wifidb_update_wifi_vap_info(char *vap_name, wifi_vap_info_t *config,
 **************************************************************************************/
 int wifidb_update_preassoc_ctrl_config(char *vap_name, wifi_preassoc_control_t *preassoc)
 {
+    wifi_util_error_print(WIFI_DB,"%s:%d: Entry \n",__func__, __LINE__);
     struct schema_Wifi_Preassoc_Control_Config cfg;
     char *filter_preassoc[] = {"-", NULL};
     wifi_db_t *g_wifidb;
@@ -2982,6 +2985,7 @@ int wifidb_update_preassoc_ctrl_config(char *vap_name, wifi_preassoc_control_t *
         wifidb_print("%s:%d Updated WIFI DB. Wifi_Preassoc_Control Config table updated successful\n",__func__, __LINE__);
     }
 
+    wifi_util_error_print(WIFI_DB,"%s:%d: Exit \n",__func__, __LINE__);
     return 0;
 }
 
@@ -3035,6 +3039,7 @@ int wifidb_get_preassoc_ctrl_config(char *vap_name, wifi_preassoc_control_t *pre
 **************************************************************************************/
 int wifidb_update_postassoc_ctrl_config(char *vap_name, wifi_postassoc_control_t *postassoc)
 {
+    wifi_util_error_print(WIFI_DB,"%s:%d: Entry \n",__func__, __LINE__);
     struct schema_Wifi_Postassoc_Control_Config cfg;
     char *filter_postassoc[] = {"-", NULL};
     wifi_db_t *g_wifidb;
@@ -3061,6 +3066,7 @@ int wifidb_update_postassoc_ctrl_config(char *vap_name, wifi_postassoc_control_t
         wifidb_print("%s:%d Updated WIFI DB. Wifi_Postassoc_Control Config table updated successful\n",__func__, __LINE__);
     }
 
+    wifi_util_error_print(WIFI_DB,"%s:%d: Exit \n",__func__, __LINE__);
     return 0;
 }
 
@@ -5469,6 +5475,7 @@ void create_onewifi_migration_flag(void)
 ***************************************************************************************/
 void *start_wifidb_func(void *arg)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
     char cmd[1024];
     char db_file[128];
     struct stat sb;
@@ -5593,6 +5600,7 @@ void *start_wifidb_func(void *arg)
 
     system(cmd);
     wifi_util_info_print(WIFI_DB, "start_wifidb_func done\n");
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return NULL;
 }
 
@@ -6231,6 +6239,7 @@ int ovsdb_get_vap_info_map(unsigned int real_index, unsigned int radio_index, wi
 
 void wifidb_print(char *format, ...)
 {
+    wifi_util_error_print(WIFI_DB, "%s:%d: Entry\n", __func__, __LINE__);
     char *buff = NULL;
     va_list list;
     FILE *fpg = NULL;
@@ -6256,6 +6265,7 @@ void wifidb_print(char *format, ...)
     fflush(fpg);
     free(buff);
     fclose(fpg);
+    wifi_util_error_print(WIFI_DB, "%s:%d: Exit\n", __func__, __LINE__);
 }
 
 /************************************************************************************
@@ -6358,6 +6368,7 @@ int wifidb_update_rfc_config(UINT rfc_id, wifi_rfc_dml_parameters_t *rfc_param)
 **************************************************************************************/
 int wifidb_update_gas_config(UINT advertisement_id, wifi_GASConfiguration_t *gas_info)
 {
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Entry\n",__func__, __LINE__);
     struct schema_Wifi_GAS_Config cfg, *pcfg;
     
     json_t *where;
@@ -6406,6 +6417,7 @@ int wifidb_update_gas_config(UINT advertisement_id, wifi_GASConfiguration_t *gas
             wifidb_print("%s:%d Updated WIFI DB. Insert in table_Wifi_GAS_Config table successful \n",__func__, __LINE__);
         }
     }
+    wifi_util_error_print(WIFI_APPS,"%s:%d: Exit\n",__func__, __LINE__);
     return 0;
 }
 
