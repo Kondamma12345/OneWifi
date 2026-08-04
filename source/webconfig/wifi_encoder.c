@@ -2798,7 +2798,6 @@ webconfig_error_t encode_neighbor_radio_params(wifi_provider_response_t *neigh_s
         neighbor_stats_obj = cJSON_CreateObject();
         if (neighbor_stats_obj == NULL) {
             wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d: json create object failed\n", __func__, __LINE__);
-            cJSON_Delete(neighbor_stats_obj);
             return webconfig_error_encode;
         }
         cJSON_AddItemToArray(neigh_stats_obj, neighbor_stats_obj);
@@ -2820,6 +2819,7 @@ webconfig_error_t encode_neighbor_radio_params(wifi_provider_response_t *neigh_s
         cJSON_AddNumberToObject(neighbor_stats_obj, "ap_DTIMPeriod", neighbor_data[count].ap_DTIMPeriod);
         cJSON_AddNumberToObject(neighbor_stats_obj, "ap_ChannelUtilization", neighbor_data[count].ap_ChannelUtilization);
     }
+    cJSON_Delete(neigh_stats_obj);
     return webconfig_error_none;
 }
 
@@ -2909,7 +2909,6 @@ webconfig_error_t encode_assocdevice_params(wifi_provider_response_t *assoc_dev_
         client_stats_obj = cJSON_CreateObject();
         if (client_stats_obj == NULL) {
             wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d json object creation failed\n", __func__, __LINE__);
-            cJSON_Delete(client_stats_obj);
             return webconfig_error_encode;
         }
 
@@ -2950,6 +2949,7 @@ webconfig_error_t encode_assocdevice_params(wifi_provider_response_t *assoc_dev_
         cJSON_AddNumberToObject(client_stats_obj, "cli_RxRetries", client_stats[count].dev_stats.cli_RxRetries);
         cJSON_AddNumberToObject(client_stats_obj, "cli_RxErrors", client_stats[count].dev_stats.cli_RxErrors);
     }
+    cJSON_Delete(assoc_stats_obj);
     return webconfig_error_none;
 }
 
