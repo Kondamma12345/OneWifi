@@ -1722,8 +1722,13 @@ void process_ext_connected_scan_results(vap_svc_t *svc, void *arg)
     convert_radio_index_to_freq_band(svc->prop, results->radio_index, (int *)&band);
     if ((ext->candidates_list.scan_list == NULL) && num) {
         ext->candidates_list.scan_list = (bss_candidate_t *) malloc(num * sizeof(bss_candidate_t));
+        if (ext->candidates_list.scan_list == NULL) {
+            ext_set_conn_state(ext, connection_state_connected, __func__, __LINE__);
+            schedule_connect_sm(svc);
+            return;
+        }
         scan_list = ext->candidates_list.scan_list;
-        ext->candidates_list.scan_count = num;
+        ext->candidates_list.scan_count = 0;
     } else  {
         wifi_util_dbg_print(WIFI_CTRL, "%s:%d NULL scan list should not reach this condition\n", __func__, __LINE__);
         ext_set_conn_state(ext, connection_state_connected, __func__, __LINE__);
@@ -1741,6 +1746,7 @@ void process_ext_connected_scan_results(vap_svc_t *svc, void *arg)
             scan_list->conn_retry_attempt = 0;
             scan_list->radio_freq_band = band;
             scan_list++;
+            ext->candidates_list.scan_count++;
         }
         tmp_bss++;
     }
@@ -1750,6 +1756,7 @@ void process_ext_connected_scan_results(vap_svc_t *svc, void *arg)
     } else {
         ext_set_conn_state(ext, connection_state_connected, __func__, __LINE__);
     }
+    wifi_util_dbg_print(WIFI_CTRL, "%s:%d Exit\n", __func__, __LINE__);
     schedule_connect_sm(svc);
 }
 
@@ -1778,7 +1785,7 @@ int process_ext_scan_results(vap_svc_t *svc, void *arg)
 
     tmp_bss = bss;
 
-    if (ext->conn_state == connection_state_connected_scan_list) {
+    if (ext->conn_state != connection_state_connected_scan_list) {
         process_ext_connected_scan_results(svc, arg);
         return 0;
     }
