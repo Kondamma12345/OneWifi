@@ -222,5 +222,6 @@ webconfig_error_t decode_stats_config_subdoc(webconfig_t *config, webconfig_subd
     }
 
     cJSON_Delete(json);
+    wifi_util_dbg_print(WIFI_WEBCONFIG, "%s:%d Kondamma Exit\n", __func__, __LINE__);
     return webconfig_error_none;
 }

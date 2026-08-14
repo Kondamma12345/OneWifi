@@ -4664,6 +4664,7 @@ webconfig_error_t translate_statsconfig_from_ovsdb_to_rdk(const struct schema_Wi
 
 webconfig_error_t  translate_config_from_ovsdb_for_stats_config(webconfig_subdoc_data_t *data)
 {
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaEntry\n", __func__, __LINE__);
     const struct schema_Wifi_Stats_Config **table;
     struct schema_Wifi_Stats_Config *config_row;
     webconfig_external_ovsdb_t *proto;
@@ -4718,6 +4719,7 @@ webconfig_error_t  translate_config_from_ovsdb_for_stats_config(webconfig_subdoc
         memcpy(stat_config_entry, &temp_stat_config_entry, sizeof(stats_config_t));
         hash_map_put(data->u.decoded.stats_config_map, strdup(temp_stat_config_entry.stats_cfg_id), stat_config_entry);
     }
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return webconfig_error_none;
 }
@@ -4784,6 +4786,7 @@ webconfig_error_t translate_steerconfig_from_ovsdb_to_rdk(const struct schema_Ba
 
 webconfig_error_t  translate_config_from_ovsdb_for_steering_config(webconfig_subdoc_data_t *data)
 {
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaEntry\n", __func__, __LINE__);
     const struct schema_Band_Steering_Config **table;
     struct schema_Band_Steering_Config *config_row;
     webconfig_external_ovsdb_t *proto;
@@ -4844,6 +4847,7 @@ webconfig_error_t  translate_config_from_ovsdb_for_steering_config(webconfig_sub
         memcpy(steer_config_entry, &temp_steer_config, sizeof(steering_config_t));
         hash_map_put(data->u.decoded.steering_config_map, strdup(temp_steer_config.steering_cfg_id), steer_config_entry);
     }
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return webconfig_error_none;
 }
@@ -5129,6 +5133,7 @@ webconfig_error_t translate_steeringclients_from_ovsdb_to_rdk(const struct schem
 
 webconfig_error_t  translate_config_from_ovsdb_for_steering_clients(webconfig_subdoc_data_t *data)
 {
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaEntry\n", __func__, __LINE__);
     const struct schema_Band_Steering_Clients **table;
     struct schema_Band_Steering_Clients *client_row;
     webconfig_external_ovsdb_t *proto;
@@ -5182,6 +5187,7 @@ webconfig_error_t  translate_config_from_ovsdb_for_steering_clients(webconfig_su
         memcpy(steering_client_entry, &temp_steering_client, sizeof(band_steering_clients_t));
         hash_map_put(data->u.decoded.steering_client_map, strdup(temp_steering_client.steering_client_id), steering_client_entry);
     }
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return webconfig_error_none;
 }
@@ -5218,6 +5224,7 @@ webconfig_error_t translate_vif_neighbors_from_ovsdb_to_rdk(const struct schema_
 
 webconfig_error_t  translate_config_from_ovsdb_for_vif_neighbors(webconfig_subdoc_data_t *data)
 {
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaEntry\n", __func__, __LINE__);
     const struct schema_Wifi_VIF_Neighbors **table;
     struct schema_Wifi_VIF_Neighbors *client_row;
     webconfig_external_ovsdb_t *proto;
@@ -5271,6 +5278,7 @@ webconfig_error_t  translate_config_from_ovsdb_for_vif_neighbors(webconfig_subdo
         memcpy(vif_neighbor_entry, &temp_vif_neighbor, sizeof(vif_neighbors_t));
         hash_map_put(data->u.decoded.vif_neighbors_map, strdup(temp_vif_neighbor.neighbor_id), vif_neighbor_entry);
     }
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return webconfig_error_none;
 }

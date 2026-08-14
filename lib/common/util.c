@@ -37,6 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <arpa/inet.h>
 #include <stdbool.h>
 #include <errno.h>
+#include "wifi_util.h"
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -860,6 +861,7 @@ char *argvstr(const char *const*argv)
 
 char *strexread(const char *prog, const char *const*argv)
 {
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaEntry\n", __func__, __LINE__);
     const char *ctx = strfmta("%s(%s, [%s]", __func__, prog ?: "", argvstra(argv) ?: "");
     char **args, *p, *q, c;
     int fd[2], pid, status, i, j, n;
@@ -921,6 +923,7 @@ char *strexread(const char *prog, const char *const*argv)
             return NULL;
     }
     LOGW("%s: unreachable", ctx);
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s:%d: KondammaExit\n", __func__, __LINE__);
     return NULL;
 }
 

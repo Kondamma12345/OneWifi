@@ -2886,6 +2886,7 @@ webconfig_error_t decode_bandwidth_from_json(cJSON *radioParams, wifi_freq_bands
 //Optimize in PHASE 2
 void decode_acs_keep_out_json(const char *json_string, unsigned int num_of_radios, webconfig_subdoc_data_t *data)
 {
+    wifi_util_error_print(WIFI_CTRL, "%s:%d KondammaEntry\n", __FUNCTION__, __LINE__);
     cJSON *json = cJSON_Parse(json_string);
     if (json == NULL) {
         const char *error_ptr = cJSON_GetErrorPtr();
@@ -2950,6 +2951,7 @@ void decode_acs_keep_out_json(const char *json_string, unsigned int num_of_radio
             }
         }
     }
+    wifi_util_error_print(WIFI_CTRL, "%s:%d KondammaExit\n", __FUNCTION__, __LINE__);
     cJSON_Delete(json);
 }
 
@@ -4094,6 +4096,7 @@ webconfig_error_t decode_link_report(cJSON *json,report_batch_t **out_report)
 
 webconfig_error_t decode_mac_object(rdk_wifi_vap_info_t *rdk_vap_info, cJSON *obj_array )
 {
+    wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d KondammaEntry\n",__FUNCTION__, __LINE__);
     if ((rdk_vap_info == NULL) || (obj_array == NULL)) {
         wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d MAC OBJECT decode failed\n",__FUNCTION__, __LINE__);
         return webconfig_error_decode;
@@ -4168,6 +4171,7 @@ webconfig_error_t decode_mac_object(rdk_wifi_vap_info_t *rdk_vap_info, cJSON *ob
             acl_entry = NULL;
         }
     }
+    wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d KondammaExit\n",__FUNCTION__, __LINE__);
 
     return webconfig_error_none;
 }
