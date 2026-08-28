@@ -25,6 +25,7 @@
 #include <limits.h>
 #include "scheduler.h"
 #include "timespec_macro.h"
+#include "wifi_util.h"
 
 struct timer_task {
     int id;                             /* identifier - used to delete */
@@ -122,6 +123,7 @@ int scheduler_add_timer_task(struct scheduler *sched, bool high_prio, int *id,
                                 int (*cb)(void *arg), void *arg, unsigned int interval_ms,
                                 unsigned int repetitions, bool start_immediately)
 {
+    wifi_util_info_print(WIFI_CTRL, "%s:%d: Kondamma Entry\n", __func__, __LINE__);
     struct timer_task *tt;
     struct timespec t_now;
     struct
@@ -173,7 +175,11 @@ int scheduler_add_timer_task(struct scheduler *sched, bool high_prio, int *id,
 	pthread_mutex_unlock(&sched->lock);
 	return -1;
     }
-    queue_push(sched_queue.timer_list, tt);
+    if (queue_push(sched_queue.timer_list, tt) != 0) {
+        free(tt);
+	pthread_mutex_unlock(&sched->lock);
+	return -1;
+    }
     (*sched_queue.num_tasks)++;
     (*sched_queue.index)++;
     if ((*sched_queue.index) >= (*sched_queue.num_tasks)) {
@@ -184,6 +190,7 @@ int scheduler_add_timer_task(struct scheduler *sched, bool high_prio, int *id,
     if (id != NULL) {
         *id = tt->id;
     }
+    wifi_util_info_print(WIFI_CTRL, "%s:%d: Kondamma Exit\n", __func__, __LINE__);
     return 0;
 }
 

@@ -21,6 +21,7 @@
 #include "he_bus_data_conversion.h"
 #include "he_bus_memory.h"
 #include "he_bus_utils.h"
+#include "wifi_util.h"
 
 #define CONN_VERIFY_NULL_WITH_RC(T)                                                 \
     if (NULL == (T)) {                                                              \
@@ -181,6 +182,7 @@ int socket_raw_buffer_send(int fd, he_bus_raw_data_msg_t *p_msg_data)
 static int recv_bus_scratch_data(he_bus_connection_info_t *client,
     he_bus_stretch_buff_t *p_recv_data)
 {
+    wifi_util_info_print(WIFI_CTRL, "%s:%d: KondammaEntry\n", __func__, __LINE__);
     ssize_t bytes_read;
     ssize_t total_bytes_read = 0;
     uint32_t total_recv_data_len = 0;
@@ -236,11 +238,13 @@ static int recv_bus_scratch_data(he_bus_connection_info_t *client,
             he_bus_conn_error_print(
                 "unix broadcast server recv failure:%d:%s, client identity:%s\r\n", errno,
                 strerror(errno), client->identity);
+            FREE_BUFF_MEMORY(p_recv_data->buff);
             return HE_BUS_RETURN_ERR;
         } else if (bytes_read == 0) {
             he_bus_conn_error_print(
                 "read zero bytes, broadcast stream closed: client identity:%s\r\n",
                 client->identity);
+            FREE_BUFF_MEMORY(p_recv_data->buff);
             return HE_BUS_ERROR_STREAM_CLOSED;
         } else {
             he_bus_conn_dbg_print("%s:%d rem data recv:%ld\r\n", __func__, __LINE__, bytes_read);
@@ -259,6 +263,8 @@ static int recv_bus_scratch_data(he_bus_connection_info_t *client,
             p_data += bytes_read;
         }
     }
+    FREE_BUFF_MEMORY(p_recv_data->buff);
+    wifi_util_info_print(WIFI_CTRL, "%s:%d: KondammaExit\n", __func__, __LINE__);
     return HE_BUS_RETURN_OK;
 }
 
