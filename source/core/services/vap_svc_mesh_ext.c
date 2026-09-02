@@ -1755,6 +1755,7 @@ void process_ext_connected_scan_results(vap_svc_t *svc, void *arg)
 
 int process_ext_scan_results(vap_svc_t *svc, void *arg)
 {
+    wifi_util_error_print(WIFI_CTRL,"%s:%d Kondamma\n", __FUNCTION__,__LINE__);
     wifi_bss_info_t *bss;
     wifi_bss_info_t *tmp_bss;
     unsigned int i, num = 0;
@@ -1919,6 +1920,7 @@ int process_ext_scan_results(vap_svc_t *svc, void *arg)
                 EXT_SCAN_RESULT_WAIT_TIMEOUT, 1, FALSE);
     }
 
+    wifi_util_error_print(WIFI_CTRL,"%s:%d Kondamma\n", __FUNCTION__,__LINE__);
     return 0;
 }
 
