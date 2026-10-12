@@ -658,6 +658,7 @@ bool wifi_set_param_uint_value(void *obj_ins_context, char *param_name, uint32_t
 bool wifi_set_param_string_value(void *obj_ins_context, char *param_name,
     scratch_data_buff_t *output_value)
 {
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaEntry\n", __func__, __LINE__);
     wifi_util_info_print(WIFI_DMCLI, "%s:%d: param name:%s\n", __func__, __LINE__, param_name);
     DM_CHECK_NULL_WITH_RC(output_value, false);
     DM_CHECK_NULL_WITH_RC(output_value->buff, false);
@@ -716,6 +717,7 @@ bool wifi_set_param_string_value(void *obj_ins_context, char *param_name,
         return false;
     }
 
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaExit\n", __func__     , __LINE__);
     return true;
 }
 
@@ -1311,6 +1313,7 @@ bool radio_set_param_uint_value(void *obj_ins_context, char *param_name, uint32_
 bool radio_set_param_string_value(void *obj_ins_context, char *param_name,
     scratch_data_buff_t *output_value)
 {
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaEntry\n", __func__, __LINE__);
     wifi_util_info_print(WIFI_DMCLI, "%s:%d: param name:%s\n", __func__, __LINE__, param_name);
     wifi_radio_operationParam_t *pcfg = (wifi_radio_operationParam_t *)obj_ins_context;
 
@@ -1518,6 +1521,7 @@ bool radio_set_param_string_value(void *obj_ins_context, char *param_name,
             param_name);
         return false;
     }
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return true;
 }
@@ -5129,6 +5133,7 @@ bool passpoint_set_param_bool_value(void *obj_ins_context, char *param_name, boo
 bool passpoint_set_param_string_value(void *obj_ins_context, char *param_name,
     scratch_data_buff_t *output_value)
 {
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaEntry\n", __func__, __LINE__);
     wifi_util_info_print(WIFI_DMCLI, "%s:%d: param name:%s\n", __func__, __LINE__, param_name);
     wifi_vap_info_t *pcfg = (wifi_vap_info_t *)obj_ins_context;
     DM_CHECK_NULL_WITH_RC(pcfg, false);
@@ -5173,6 +5178,7 @@ bool passpoint_set_param_string_value(void *obj_ins_context, char *param_name,
             param_name);
         return false;
     }
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return true;
 }
@@ -5269,6 +5275,7 @@ bool pre_conn_ctrl_get_param_string_value(void *obj_ins_context, char *param_nam
 bool pre_conn_ctrl_set_param_string_value(void *obj_ins_context, char *param_name,
     scratch_data_buff_t *output_value)
 {
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaEntry\n", __func__, __LINE__);
     wifi_util_info_print(WIFI_DMCLI, "%s:%d: param name:%s\n", __func__, __LINE__, param_name);
     int val, ret;
     wifi_vap_info_t *vap_pcfg = (wifi_vap_info_t *)obj_ins_context;
@@ -5478,6 +5485,7 @@ bool pre_conn_ctrl_set_param_string_value(void *obj_ins_context, char *param_nam
             param_name);
         return false;
     }
+    wifi_util_info_print(WIFI_DMCLI, "%s:%d: KondammaExit\n", __func__, __LINE__);
 
     return true;
 }

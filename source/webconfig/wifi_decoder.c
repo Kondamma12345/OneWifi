@@ -204,6 +204,7 @@ webconfig_error_t decode_ipv6_address(char *ip) {
 
 webconfig_error_t decode_anqp_object(const cJSON *anqp, wifi_interworking_t *interworking_info)
 {
+     wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d: KondammaEntry\n", __func__, __LINE__);   
     cJSON *anqpElement = NULL;
     cJSON *anqpList = NULL;
     cJSON *anqpEntry = NULL;
@@ -603,6 +604,7 @@ webconfig_error_t decode_anqp_object(const cJSON *anqp, wifi_interworking_t *int
 
     cJSON_PrintPreallocated(passPointStats, (char *)&interworking_info->anqp.passpointStats,sizeof(interworking_info->anqp.passpointStats), false);
     cJSON_Delete(passPointStats);
+    wifi_util_error_print(WIFI_WEBCONFIG, "%s:%d: KondammaExit\n", __func__, __LINE__);
     return webconfig_error_none;
 }
 
@@ -1686,6 +1688,7 @@ webconfig_error_t decode_operating_environment(wifi_operating_env_t *operating_e
 webconfig_error_t decode_vap_common_object(const cJSON *vap, wifi_vap_info_t *vap_info,
     rdk_wifi_vap_info_t *rdk_vap_info, wifi_platform_property_t *wifi_prop)
 {
+     wifi_util_error_print(WIFI_WEBCONFIG, "%s %d :KondammaEntry\n", __FUNCTION__, __LINE__);
     const cJSON *param;
     cJSON *object = NULL;
     bool connected_value = false;
@@ -1935,7 +1938,7 @@ webconfig_error_t decode_vap_common_object(const cJSON *vap, wifi_vap_info_t *va
         }
         vap_info->u.bss_info.vendor_elements_len = i;
     }
-
+     wifi_util_error_print(WIFI_WEBCONFIG, "%s %d :KondammaExit\n", __FUNCTION__, __LINE__);
     return webconfig_error_none;
 }
 
@@ -2793,6 +2796,7 @@ int validate_wifi_hw_variant(wifi_freq_bands_t radio_band, wifi_ieee80211Variant
 
 webconfig_error_t decode_radio_setup_object(const cJSON *obj_radio_setup, rdk_wifi_vap_map_t *vap_map)
 {
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s-%d KondammaEntry\n" , __func__, __LINE__);
     const cJSON  *param, *obj, *obj_array;
     unsigned int i;
 
@@ -2817,6 +2821,7 @@ webconfig_error_t decode_radio_setup_object(const cJSON *obj_radio_setup, rdk_wi
         decode_param_integer(obj, "VapIndex", param);
         vap_map->rdk_vap_array[i].vap_index = param->valuedouble;
     }
+    wifi_util_dbg_print(WIFI_WEBCONFIG,"%s-%d KondammaExit\n" , __func__, __LINE__);
 
     return webconfig_error_none;
 }
@@ -3028,6 +3033,7 @@ webconfig_error_t decode_radio_curr_operating_classes(const cJSON *obj_radio_set
 
 webconfig_error_t decode_radio_object(const cJSON *obj_radio, rdk_wifi_radio_t *radio)
 {
+    wifi_util_error_print(WIFI_CTRL, "%s:%d KondammaEntry\n", __func__, __LINE__);
     const cJSON *param;
     char *ptr, *tmp;
     unsigned int num_of_channel = 0;
@@ -3374,6 +3380,7 @@ webconfig_error_t decode_radio_object(const cJSON *obj_radio, rdk_wifi_radio_t *
         wifi_util_error_print(WIFI_WEBCONFIG,
             "%s:%d Radio current operation class decoding failed\n", __func__, __LINE__);
     }
+    wifi_util_error_print(WIFI_CTRL, "%s:%d KondammaExit\n", __func__, __LINE__);
     return webconfig_error_none;
 }
 
